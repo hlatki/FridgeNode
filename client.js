@@ -1,30 +1,27 @@
 /*
-	 This amazing, earth-shattering Magnetic Poetry knock-off was a way for me to learn a bit
-	 about node.js and websockets.  Although there is very little code here, I did end
-	 up learning a reasonable amount about these new technologies and will probably make this 
-	 demo app a little more usable/interesting/feature-rich in the future.   Also i mauy make 
-	 the code slightly less awful.
-	 --Hannah
- */
+	FridgeNode is basically a digital knock of magnetic poetry.  It uses socket.io and node.js
+	jQuery is used for the UI. Spin.js is used for the load spinner.
+	See github.com/hlatki/FridgeNode for more details 
+*/
 var socket;
 var wordTimes = new Array();
 
 //get the words and their current positions
 function SetupWords(jsonString) {
-				var wordArr = jQuery.parseJSON(jsonString);
+	var wordArr = jQuery.parseJSON(jsonString);
 
-				var words = [];
-				var i=0;
-				var l=wordArr.length;
-				for(i=0; i<l;i++) {
-								words.push('<li class="ui-draggable" id="' + wordArr[i].ind + '" style="left:' + wordArr[i].posLeft+'; top: ' +  wordArr[i].posTop+';">' +  wordArr[i].wordstring + '</li>');
-								wordTimes[wordArr[i].ind] = null;
-			}
+		var words = [];
+		var i=0;
+		var l=wordArr.length;
+		for(i=0; i<l;i++) {
+			words.push('<li class="ui-draggable" id="' + wordArr[i].ind + '" style="left:' + wordArr[i].posLeft+'; top: ' +  wordArr[i].posTop+';">' +  wordArr[i].wordstring + '</li>');
+			wordTimes[wordArr[i].ind] = null;
+	}
 
-				$('<ul/>', {
-												'id': 'board',
-												html: words.join('')
-												}).appendTo('body');
+		$('<ul/>', {
+			'id': 'board',
+			html: words.join('')
+			}).appendTo('body');
 }
 
 

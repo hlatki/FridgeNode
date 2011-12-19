@@ -63,6 +63,8 @@ var io  = sio.listen(server);
 
 /* socket.io config details */
 io.enable('browser client minification');
+io.enable('browser client etag');          
+io.enable('browser client gzip'); 
 io.set('log level',2);
 io.set('transports', [
 	'websocket',

@@ -3,12 +3,7 @@ FridgeNode
 Dependencies
 -------------------
 node.js
-socket.io v. .7
-
-Bugs
--------------------
-Doesn't work very well in Firefox. I think this has something to do
-with socket.io and FlashSockets...Let me know if you figure it out!
+socket.io (0.8.7)
 
 About
 ------------------
@@ -20,6 +15,9 @@ Files
 -----------------
 server.js -- serves up the files deals with the sockets
 client.js
+client.min.js -- minified version
 wordstuff.js -- code for the words
 style.css
+style.min.css -- client.min.js -- minified version
 index.html
+
