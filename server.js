@@ -1,67 +1,35 @@
-/* be a high tech poet 
- the wordstuff file has all the functions that deal with the words 
-This is just a really primitive experiment with node.js and socket.io,
-so the code is not the best
- */
+var	words = require("./static/js/wordstuff"),
+	express = require('express'),
+	app = express(),
+	PORT = 3000,
+	http = require('http');
 
-
-
-var http = require('http'),
-	fs = require('fs'),
-	url = require('url'),
-	path = require('path'),
-	words = require("./wordstuff"),
-	sio = require('socket.io');
-
+var server = http.createServer(app);
+var io = require('socket.io').listen(server);
 
 words.setupWords(); 
 var userCount = 0;
 
-/* very basic server to get the few files we need */
-var server = http.createServer(function (request, response) {
-	var fileReq = url.parse(request.url).pathname;
-	var filename = "";
 
-	if (fileReq === '/') {
-		filename = './index.html';
-	} else {
-		filename = '.' + fileReq;
-	}
-	
-	/* very limited mechanism for determining content type */
-	var contType = "";
-	switch(path.extname(filename)) {
-		case '.css':
-			contType="text/css";
-			break;
-		case '.js':
-			contType="text/javascript";
-			break;
-		default:
-			contType="text/html";
+// Use Express to serve the static files 
 
-	}
-	
-	fs.readFile(filename, function(err, file) {  
-    	if(err) {  
-    		response.writeHead(400, { 'Content-Type': 'text/plain' });  
-        	response.end("Oh noes!");  
-        	return;
-    	 }  
-     	 response.writeHead(200, { 'Content-Type': contType });  
-         response.end(file, "utf-8");  
-     });
+app.configure(function() {
+    app.set('port', PORT);
+    app.use(express.logger('dev'));
+    app.use(express.static(__dirname + '/static'));
+    app.use(app.router);
 });
 
-server.listen(8008);
-
+server.listen(app.get('port'));
+/*server.listen(app.get('port'), function() {
+    console.log("Express server listening on " + app.get('port'));
+});*/
 /* 
 	socket.io abstracts away all the nasty bits, leaving just a few lines 
    of actual work */
-var io  = sio.listen(server);
 
 
-/* socket.io config details */
+
 io.enable('browser client minification');
 io.enable('browser client etag');          
 io.enable('browser client gzip'); 
@@ -117,3 +85,7 @@ io.sockets.on('connection', function(socket) {
 
 
 });
+
+
+
+
